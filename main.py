@@ -7,6 +7,11 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
+def check_mail(mail):
+    regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+    return re.fullmatch(regex, mail)
+
+
 class Mail:
 
     def __init__(self, receivers, sender=os.getenv('OUTLOOK_EMAIL'), subject='', body='', cc=None, cci=None):
@@ -69,10 +74,6 @@ class Mail:
         return self.__cci
 
     # METHODS
-
-    def check_mail(self, mail):
-        regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
-        return re.fullmatch(regex, mail)
 
     def send_mail(self):
         # Amaury
