@@ -1,9 +1,9 @@
 import smtplib
 import poplib
+import re
 
 import os
 from dotenv import load_dotenv
-
 load_dotenv()
 
 
@@ -38,7 +38,41 @@ class Mail:
         self.__cc = cc
         self.__cci = cci
 
-        # TODO: create properties for private variables
+    # PROPERTIES
+
+    @property
+    def sender(self):
+        return self.__sender
+
+    @property
+    def receivers(self):
+        return self.__receivers
+
+    @property
+    def sender(self):
+        return self.__sender
+
+    @property
+    def subject(self):
+        return self.__subject
+
+    @property
+    def body(self):
+        return self.__body
+
+    @property
+    def cc(self):
+        return self.__cc
+
+    @property
+    def cci(self):
+        return self.__cci
+
+    # METHODS
+
+    def check_mail(self, mail):
+        regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+        return re.fullmatch(regex, mail)
 
     def send_mail(self):
         # Amaury
