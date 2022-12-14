@@ -54,10 +54,6 @@ class Mail:
         return self.__receivers
 
     @property
-    def sender(self):
-        return self.__sender
-
-    @property
     def subject(self):
         return self.__subject
 
