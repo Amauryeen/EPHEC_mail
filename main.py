@@ -1,5 +1,6 @@
 import smtplib
 import poplib
+import re
 
 import os
 from dotenv import load_dotenv
