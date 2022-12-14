@@ -38,6 +38,7 @@ class Mail:
         self.__cci = cci
 
     # PROPERTIES
+
     @property
     def sender(self):
         return self.__sender
@@ -65,6 +66,11 @@ class Mail:
     @property
     def cci(self):
         return self.__cci
+
+    # METHODS
+
+    def check_mail(self, mail):
+        pass
 
     def send_mail(self):
         # Amaury
