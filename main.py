@@ -1,4 +1,5 @@
 import smtplib
+from email.message import EmailMessage
 import poplib
 import re
 import os
@@ -30,13 +31,12 @@ def check_mail(mail):
 
 class Mail:
 
-    def __init__(self, receivers, sender=os.getenv('OUTLOOK_EMAIL'), subject='', body='', cc=None, cci=None):
+    def __init__(self, receivers, sender=os.getenv('OUTLOOK_EMAIL'), subject='', body='', cc=None, bcc=None):
         if cc is None:
             cc = []
-        if cci is None:
-            cci = []
+        if bcc is None:
+            bcc = []
 
-        # Amaury
         # Check if receivers is valid
         # TODO: receivers is a list, has at least 1 entry and maximum 100 entries, all entries are e-mails
         if not isinstance(receivers, list):
@@ -66,32 +66,32 @@ class Mail:
 
         # Check if cc is valid
         # TODO: cc is a list, has a maximum of 100 entries, all entries are e-mails
-        if not isinstance(receivers, list):
+        if not isinstance(cc, list):
             raise InvalidType('Cc must be a list.')
-        elif len(receivers) > 100:
+        elif len(cc) > 100:
             raise InvalidSize('Cc must not exceed 100 entries.')
 
         for v in cc:
             if not check_mail(v):
                 raise NotMail(f'Entry "{v}" in Cc is not a valid e-mail address.')
 
-        # Check if cci is valid
-        # TODO: cci is a list, has a maximum of 100 entries, all entries are e-mails
-        if not isinstance(receivers, list):
-            raise InvalidType('Cci must be a list.')
-        elif len(receivers) > 100:
-            raise InvalidSize('Cci must not exceed 100 entries.')
+        # Check if bcc is valid
+        # TODO: bcc is a list, has a maximum of 100 entries, all entries are e-mails
+        if not isinstance(bcc, list):
+            raise InvalidType('Bcc must be a list.')
+        elif len(bcc) > 100:
+            raise InvalidSize('Bcc must not exceed 100 entries.')
 
-        for v in cci:
+        for v in bcc:
             if not check_mail(v):
-                raise NotMail(f'Entry "{v}" in Cci is not a valid e-mail address.')
+                raise NotMail(f'Entry "{v}" in Bcc is not a valid e-mail address.')
 
         self.__sender = sender
         self.__receivers = receivers
         self.__subject = subject
         self.__body = body
         self.__cc = cc
-        self.__cci = cci
+        self.__bcc = bcc
 
     # PROPERTIES
 
@@ -116,22 +116,29 @@ class Mail:
         return self.__cc
 
     @property
-    def cci(self):
-        return self.__cci
+    def bcc(self):
+        return self.__bcc
 
     # METHODS
 
     def send_mail(self):
-        # Amaury
+        msg = EmailMessage()
+        msg.set_content(self.body)
+        msg['Subject'] = self.subject
+        msg['From'] = self.sender
+        msg['To'] = self.receivers
+        msg['Cc'] = self.cc
+        msg['Bcc'] = self.bcc
+
         with smtplib.SMTP(os.getenv('SMTP_HOST'), int(os.getenv('SMTP_PORT'))) as smtp:
             smtp.starttls()
             smtp.login(os.getenv('OUTLOOK_EMAIL'), os.getenv('OUTLOOK_PASSWORD'))
+            smtp.send_message(msg)
             smtp.quit()
 
 
 def main():
-    mail = Mail(['he202089@students.ephec.be'], subject='Test', body='Hi')
-    mail.send_mail()
+    pass
 
 
 if __name__ == '__main__':
