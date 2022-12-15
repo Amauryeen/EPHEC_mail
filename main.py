@@ -48,7 +48,7 @@ class Mail:
 
         for v in receivers:
             if not check_mail(v):
-                raise NotMail(f'Entry "{v}" in Receivers is not a valid mail address.')
+                raise NotMail(f'Entry "{v}" in Receivers is not a valid e-mail address.')
 
         # Check if subject is valid
         # TODO: subject is less than 201 characters
@@ -73,7 +73,7 @@ class Mail:
 
         for v in cc:
             if not check_mail(v):
-                raise NotMail(f'Entry "{v}" in Cc is not a valid mail address.')
+                raise NotMail(f'Entry "{v}" in Cc is not a valid e-mail address.')
 
         # Check if cci is valid
         # TODO: cci is a list, has a maximum of 100 entries, all entries are e-mails
@@ -84,7 +84,7 @@ class Mail:
 
         for v in cci:
             if not check_mail(v):
-                raise NotMail(f'Entry "{v}" in Cci is not a valid mail address.')
+                raise NotMail(f'Entry "{v}" in Cci is not a valid e-mail address.')
 
         self.__sender = sender
         self.__receivers = receivers
@@ -123,11 +123,15 @@ class Mail:
 
     def send_mail(self):
         # Amaury
-        pass
+        with smtplib.SMTP(os.getenv('SMTP_HOST'), int(os.getenv('SMTP_PORT'))) as smtp:
+            smtp.starttls()
+            smtp.login(os.getenv('OUTLOOK_EMAIL'), os.getenv('OUTLOOK_PASSWORD'))
+            smtp.quit()
 
 
 def main():
-    pass
+    mail = Mail(['he202089@students.ephec.be'], subject='Test', body='Hi')
+    mail.send_mail()
 
 
 if __name__ == '__main__':
