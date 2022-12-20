@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 
 import email, poplib
-import mailbox
-from email.header import decode_header
 import os
 from dotenv import load_dotenv
 from email.policy import default as default_policy
@@ -22,7 +20,7 @@ try:
 except poplib.error_proto as error:
     print(error)
 
-print(mail_box.list())
+
 num_messages = len(mail_box.list()[1])
 
 for i in range(1, num_messages + 1):
@@ -38,6 +36,7 @@ for i in range(1, num_messages + 1):
         if part.get_content_type():
 
             body.append(part.get_payload(decode=True))
-    print(f"\tMessage: \n{body[1].decode('utf-8')}")
+    print(f"\tMessage: \n\n{body[1].decode('utf-8')}")
+    print("\n-----------------------------------------------\n")
 
 mail_box.quit()
