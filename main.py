@@ -139,17 +139,3 @@ class Mail:
 
 def main():
     pass
-
-
-if __name__ == '__main__':
-    login = "amaury.maxime.ephec@outlook.be"
-    print(login)
-    password = "Fpz1@k?&OGU&0y3&g80hSkHPlxTht@$1AYlkb#Uh"
-    print(password)
-    pop_server = ''
-    pop_port = 995
-
-    mail_box = poplib.POP3_SSL(pop_server, pop_port)
-    mail_box.user(login)
-    mail_box.pass_(password)
-    print("[+] ...connected")

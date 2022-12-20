@@ -8,15 +8,18 @@ from email.policy import default as default_policy
 
 load_dotenv()
 
+
 login = os.getenv('OUTLOOK_EMAIL')
 password = os.getenv('OUTLOOK_PASSWORD')
 pop_server = 'outlook.office365.com'
 pop_port = 995
 
+
 try:
     mail_box = poplib.POP3_SSL(pop_server, pop_port)
     mail_box.user(login)
     mail_box.pass_(password)
+    print("[+] Connection established...\n")
 
 except poplib.error_proto as error:
     print(error)
