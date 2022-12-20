@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
 import email, poplib
-import os
+import os, sys
+import socket
 from dotenv import load_dotenv
 from email.policy import default as default_policy
 
@@ -19,7 +20,13 @@ try:
 
 except poplib.error_proto as error:
     print(error)
-
+    sys.exit()
+except OSError as error:
+    print(error)
+    sys.exit()
+except TimeoutError as error:
+    print(error)
+    sys.exit()
 
 num_messages = len(mail_box.list()[1])
 
