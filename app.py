@@ -1,13 +1,15 @@
-import sys, os
+import os
+import sys
+
 from dotenv import load_dotenv
 
 load_dotenv()
 
-class NotAvalidChoice(Exception):
+class NotAValidChoice(Exception):
     pass
 
 
-class App():
+class App:
 
     @staticmethod
     def menu():
@@ -40,7 +42,7 @@ class App():
         menu_choice = int(input("\nQuelle est le numéro de votre choix : "))
 
         if menu_choice not in range(1, 5):
-            raise NotAvalidChoice("Choice must be between 1 and 4")
+            raise NotAValidChoice("Choice must be between 1 and 4")
 
         if menu_choice == 1:
             mail = App.create_mail()

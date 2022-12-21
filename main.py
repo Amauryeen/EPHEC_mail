@@ -5,11 +5,11 @@ import re
 import os
 from dotenv import load_dotenv
 from app import App
-from app import NotAvalidChoice
+from app import NotAValidChoice
 
 load_dotenv()
 
-class NotAvalidChoice(Exception):
+class NotAValidChoice(Exception):
     pass
 
 
@@ -25,7 +25,7 @@ class InvalidSize(Exception):
     pass
 
 
-class NotMail(Exception):
+class InvalidMail(Exception):
     pass
 
 
@@ -38,14 +38,14 @@ class Mail:
 
     def __init__(self):
         self.__receivers = input("Entrez le/les destinataire(s) séparé par un espace : ").split(" ")
-        self.__sender =os.getenv('OUTLOOK_EMAIL')
+        self.__sender = os.getenv('OUTLOOK_EMAIL')
         self.__cc= input("Entrez le/les destinataire(s) en copie,  séparé par un espace : ").split(" ")
         if self.__cc[0] == "":
             self.__cc = []
         self.__bcc= input("Entrez le/les destinataire(s) en copie cachée, séparé par un espace : ").split(" ")
         if self.__bcc[0] == "":
             self.__bcc = []
-        self.__subject= input("Entrez le sujet de votre mail: ")
+        self.__subject = input("Entrez le sujet de votre mail: ")
         self.__body = ""
         print("Entrez votre message: ")
         while True:
@@ -66,7 +66,7 @@ class Mail:
 
         for v in self.receivers:
             if not check_mail(v):
-                raise NotMail(f'Entry "{v}" in Receivers is not a valid e-mail address.')
+                raise InvalidMail(f'Entry "{v}" in Receivers is not a valid e-mail address.')
 
         # Check if subject is valid
         # TODO: subject is less than 201 characters
@@ -93,7 +93,7 @@ class Mail:
             print(self.cc)
             print(len(self.cc))
             if len(self.cc) != 0 and not check_mail(v):
-                raise NotMail(f'Entry "{v}" in Cc is not a valid e-mail address.')
+                raise InvalidMail(f'Entry "{v}" in Cc is not a valid e-mail address.')
 
         # Check if bcc is valid
         # TODO: bcc is a list, has a maximum of 100 entries, all entries are e-mails
@@ -104,7 +104,7 @@ class Mail:
 
         for v in self.bcc:
             if len(self.bcc) !=0 and not check_mail(v):
-                raise NotMail(f'Entry "{v}" in Bcc is not a valid e-mail address.')
+                raise InvalidMail(f'Entry "{v}" in Bcc is not a valid e-mail address.')
 
 
     # PROPERTIES
@@ -168,7 +168,7 @@ class App():
         menu_choice = int(input("\nQuelle est le numéro de votre choix : "))
 
         if menu_choice not in range(1, 5):
-            raise NotAvalidChoice("Choice must be between 1 and 4")
+            raise NotAValidChoice("Choice must be between 1 and 4")
 
         if menu_choice == 1:
             mail = Mail()
@@ -196,7 +196,7 @@ if __name__ == "__main__":
             App.menu_choice()
             break
 
-        except NotAvalidChoice as error:
+        except NotAValidChoice as error:
             print(f"[!] : {error}")
         except ValueError as error:
             print(f"[!] : {error}")
