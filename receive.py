@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
-import email, poplib
-import os, sys
+import email
+import poplib
+import os
+import sys
 import socket
 from dotenv import load_dotenv
 from email.policy import default as default_policy

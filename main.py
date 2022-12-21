@@ -9,9 +9,6 @@ from app import NotAValidChoice
 
 load_dotenv()
 
-class NotAValidChoice(Exception):
-    pass
-
 
 class TooManyCharacters(Exception):
     pass
