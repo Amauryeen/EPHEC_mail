@@ -20,10 +20,72 @@ def check_mail(mail):
     return re.fullmatch(regex, mail)
 
 
+def check_sender(sender):
+    # TODO: sender is a string, must be a valid e-mail
+    if not isinstance(sender, str):
+        raise InvalidType('Sender must be a string.')
+    elif not check_mail(sender):
+        raise InvalidMail(f'Sender "{sender}" is not a valid e-mail address.')
+
+
+def check_receivers(receivers):
+    # TODO: receivers is a list, has at least 1 entry and maximum 100 entries, all entries are e-mails
+    if not isinstance(receivers, list):
+        raise InvalidType('Receivers must be a list.')
+    elif len(receivers) < 1:
+        raise InvalidSize('Receivers must have at least 1 entry.')
+    elif len(receivers) > 100:
+        raise InvalidSize('Receivers must not exceed 100 entries.')
+
+    for v in receivers:
+        if not check_mail(v):
+            raise InvalidMail(f'Entry "{v}" in Receivers is not a valid e-mail address.')
+
+
+def check_subject(subject):
+    # TODO: subject is a string, less than 201 characters
+    if not isinstance(subject, str):
+        raise InvalidType('Subject must be a string.')
+    elif len(subject) > 200:
+        raise TooManyCharacters('Subject cannot exceed 200 characters.')
+
+
+def check_body(body):
+    # TODO: body is a string, less than 1001 characters
+    if not isinstance(body, str):
+        raise InvalidType('Body must be a string.')
+    elif len(body) > 1000:
+        raise TooManyCharacters('Body cannot exceed 1000 characters.')
+
+
+def check_cc(cc):
+    # TODO: cc is a list, has a maximum of 100 entries, all entries are e-mails
+    if not isinstance(cc, list):
+        raise InvalidType('Cc must be a list.')
+    elif len(cc) > 100:
+        raise InvalidSize('Cc must not exceed 100 entries.')
+
+    for v in cc:
+        if len(cc) != 0 and not check_mail(v):
+            raise InvalidMail(f'Entry "{v}" in Cc is not a valid e-mail address.')
+
+
+def check_bcc(bcc):
+    # TODO: bcc is a list, has a maximum of 100 entries, all entries are e-mails
+    if not isinstance(bcc, list):
+        raise InvalidType('Bcc must be a list.')
+    elif len(bcc) > 100:
+        raise InvalidSize('Bcc must not exceed 100 entries.')
+
+    for v in bcc:
+        if len(bcc) != 0 and not check_mail(v):
+            raise InvalidMail(f'Entry "{v}" in Bcc is not a valid e-mail address.')
+
+
 class Mail:
     """Structure d'un mail contenant tout son contenu"""
 
-    def __init__(self):
+    def __init__(self, receivers, subject="", body="", cc=None, bcc=None, sender=os.getenv('OUTLOOK_EMAIL')):
         """Initie un mail
 
         PRE: tous les arguments obligatoires sont présents, et les arguments présents sont corrects
@@ -32,74 +94,35 @@ class Mail:
 
         """
 
-        self.__receivers = input("Entrez le/les destinataire(s) séparé par un espace : ").split(" ")
-        self.__sender = os.getenv('OUTLOOK_EMAIL')
-        self.__cc = input("Entrez le/les destinataire(s) en copie,  séparé par un espace : ").split(" ")
-        if self.__cc[0] == "":
-            self.__cc = []
-        self.__bcc = input("Entrez le/les destinataire(s) en copie cachée, séparé par un espace : ").split(" ")
-        if self.__bcc[0] == "":
-            self.__bcc = []
-        self.__subject = input("Entrez le sujet de votre mail: ")
-        self.__body = ""
-        print("Entrez votre message: ")
-        while True:
-            body_part = input()
-            if body_part:
-                self.__body += body_part + "\n"
-            else:
-                break
+        if bcc is None:
+            bcc = []
+        if cc is None:
+            cc = []
+
+        # Check if sender is valid
+        check_sender(sender)
 
         # Check if receivers is valid
-        # TODO: receivers is a list, has at least 1 entry and maximum 100 entries, all entries are e-mails
-        if not isinstance(self.receivers, list):
-            raise InvalidType('Receivers must be a list.')
-        elif len(self.receivers) < 1:
-            raise InvalidSize('Receivers must have at least 1 entry.')
-        elif len(self.receivers) > 100:
-            raise InvalidSize('Receivers must not exceed 100 entries.')
-
-        for v in self.receivers:
-            if not check_mail(v):
-                raise InvalidMail(f'Entry "{v}" in Receivers is not a valid e-mail address.')
+        check_receivers(receivers)
 
         # Check if subject is valid
-        # TODO: subject is less than 201 characters
-        if not isinstance(self.subject, str):
-            raise InvalidType('Subject must be a string.')
-        elif len(self.subject) > 200:
-            raise TooManyCharacters('Subject cannot exceed 200 characters.')
+        check_subject(subject)
 
         # Check if body is valid
-        # TODO: body is less than 1001 characters
-        if not isinstance(self.subject, str):
-            raise InvalidType('Body must be a string.')
-        elif len(self.body) > 1000:
-            raise TooManyCharacters('Body cannot exceed 1000 characters.')
+        check_body(body)
 
         # Check if cc is valid
-        # TODO: cc is a list, has a maximum of 100 entries, all entries are e-mails
-        if not isinstance(self.cc, list):
-            raise InvalidType('Cc must be a list.')
-        elif len(self.cc) > 100:
-            raise InvalidSize('Cc must not exceed 100 entries.')
-
-        for v in self.cc:
-            print(self.cc)
-            print(len(self.cc))
-            if len(self.cc) != 0 and not check_mail(v):
-                raise InvalidMail(f'Entry "{v}" in Cc is not a valid e-mail address.')
+        check_cc(cc)
 
         # Check if bcc is valid
-        # TODO: bcc is a list, has a maximum of 100 entries, all entries are e-mails
-        if not isinstance(self.bcc, list):
-            raise InvalidType('Bcc must be a list.')
-        elif len(self.bcc) > 100:
-            raise InvalidSize('Bcc must not exceed 100 entries.')
+        check_bcc(bcc)
 
-        for v in self.bcc:
-            if len(self.bcc) != 0 and not check_mail(v):
-                raise InvalidMail(f'Entry "{v}" in Bcc is not a valid e-mail address.')
+        self.__sender = sender
+        self.__receivers = receivers
+        self.__subject = subject
+        self.__body = body
+        self.__cc = cc
+        self.__bcc = bcc
 
     # PROPERTIES
 

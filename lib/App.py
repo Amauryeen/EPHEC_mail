@@ -24,7 +24,24 @@ class App:
             raise NotAValidChoice("Choice must be between 1 and 4")
 
         if menu_choice == 1:
-            mail = Mail()
+            receivers = input("Entrez le/les destinataire(s) séparé par un espace : ").split(" ")
+            cc = input("Entrez le/les destinataire(s) en copie,  séparé par un espace : ").split(" ")
+            if cc[0] == "":
+                cc = []
+            bcc = input("Entrez le/les destinataire(s) en copie cachée, séparé par un espace : ").split(" ")
+            if bcc[0] == "":
+                bcc = []
+            subject = input("Entrez le sujet de votre mail: ")
+            body = ""
+            print("Entrez votre message: ")
+            while True:
+                body_part = input()
+                if body_part:
+                    body += body_part + "\n"
+                else:
+                    break
+
+            mail = Mail(receivers, subject, body, cc, bcc)
             mail.send_mail()
             App.menu()
             App.menu_choice()
