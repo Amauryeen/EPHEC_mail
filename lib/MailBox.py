@@ -5,6 +5,7 @@ from email.policy import default as default_policy
 
 
 class MailBox:
+    """Permet de récupérer tous les mails stockés sur le serveur distant"""
     def __init__(self):
         self.__login = os.getenv('OUTLOOK_EMAIL')
         self.__password = os.getenv('OUTLOOK_PASSWORD')
@@ -12,6 +13,7 @@ class MailBox:
         self.__pop_port = int(os.getenv('POP_PORT'))
 
     def get_mail(self):
+        """Récupère tous les mails sur le serveur distant et les affiche en console un par un"""
         mail_box = poplib.POP3_SSL(self.__pop_server, self.__pop_port)
         mail_box.user(self.__login)
         mail_box.pass_(self.__password)

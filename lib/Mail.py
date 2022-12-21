@@ -10,13 +10,28 @@ load_dotenv()
 
 
 def check_mail(mail):
+    """Vérifie que l'adresse mail est correctement formée
+
+    PRE: mail est une adresse mail
+    POST: retourne un boolean
+
+    """
     regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
     return re.fullmatch(regex, mail)
 
 
 class Mail:
+    """Structure d'un mail contenant tout son contenu"""
 
     def __init__(self):
+        """Initie un mail
+
+        PRE: tous les arguments obligatoires sont présents, et les arguments présents sont corrects
+        POST: initie la classe avec les champs spécifiés
+        RAISES: renvoie une erreur si un des champs est incorrect, avec sa déscription
+
+        """
+
         self.__receivers = input("Entrez le/les destinataire(s) séparé par un espace : ").split(" ")
         self.__sender = os.getenv('OUTLOOK_EMAIL')
         self.__cc = input("Entrez le/les destinataire(s) en copie,  séparé par un espace : ").split(" ")
@@ -115,6 +130,12 @@ class Mail:
     # METHODS
 
     def send_mail(self):
+        """"Envoie un mail au(x) déstinataire(s)
+
+        PRE: self possède chacun des champs obligatoires
+        POST: affiche un message de succès dans la console si l'envoi réussi
+
+        """
         msg = EmailMessage()
         msg.set_content(self.body)
         msg['Subject'] = self.subject
