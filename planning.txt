@@ -1,0 +1,24 @@
+Lundi 12 décembre:
+	- 1ère réunion projet
+	- Mise en place du planning
+	- Mise en place des objectifs à atteindre
+	- Cibler les compétences à développer
+	- Choix librairies
+	- Découverte libraire smtplib et poplib
+	- Répartition tâches Amaury et Maxime
+
+Jeudi 15 décembre:
+	- Proof of concept
+		=> envoie mail basic
+		=> réception mail via poplib basic
+
+Lundi 19 décembre:
+	- Gestion des erreurs
+	- fusion code envoie et réception mail
+	- Implémentation class mail
+
+Mercredi 21 décembre:
+	- Création menu interactif
+
+Jeudi 22 décembre:
+	- Livraison projet et démonstration
