@@ -14,5 +14,5 @@ class InvalidSize(Exception):
     pass
 
 
-class NotMail(Exception):
+class InvalidMail(Exception):
     pass

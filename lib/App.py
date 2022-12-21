@@ -5,9 +5,11 @@ import sys
 
 
 class App:
+    """Classe responsable de l'affichage du menu permettant la sélection de l'action à effectuer"""
 
     @staticmethod
     def menu():
+        """Affichage du menu"""
         print("\n-----   Menu   -----\n")
         print("1. Envoyer un mail")
         print("2. Afficher mail")
@@ -15,6 +17,7 @@ class App:
 
     @staticmethod
     def menu_choice():
+        """Sélection après affichage du menu"""
         menu_choice = int(input("\nQuel est le numéro de votre choix : "))
 
         if menu_choice not in range(1, 5):

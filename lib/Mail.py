@@ -46,7 +46,7 @@ class Mail:
 
         for v in self.receivers:
             if not check_mail(v):
-                raise NotMail(f'Entry "{v}" in Receivers is not a valid e-mail address.')
+                raise InvalidMail(f'Entry "{v}" in Receivers is not a valid e-mail address.')
 
         # Check if subject is valid
         # TODO: subject is less than 201 characters
@@ -73,7 +73,7 @@ class Mail:
             print(self.cc)
             print(len(self.cc))
             if len(self.cc) != 0 and not check_mail(v):
-                raise NotMail(f'Entry "{v}" in Cc is not a valid e-mail address.')
+                raise InvalidMail(f'Entry "{v}" in Cc is not a valid e-mail address.')
 
         # Check if bcc is valid
         # TODO: bcc is a list, has a maximum of 100 entries, all entries are e-mails
@@ -84,7 +84,7 @@ class Mail:
 
         for v in self.bcc:
             if len(self.bcc) != 0 and not check_mail(v):
-                raise NotMail(f'Entry "{v}" in Bcc is not a valid e-mail address.')
+                raise InvalidMail(f'Entry "{v}" in Bcc is not a valid e-mail address.')
 
     # PROPERTIES
 
