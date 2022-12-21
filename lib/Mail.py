@@ -21,7 +21,15 @@ def check_mail(mail):
 
 
 def check_sender(sender):
-    # TODO: sender is a string, must be a valid e-mail
+    """
+    Vérifie que le sender est correct
+
+    PRE: sender est un string, e-mail valide
+    POST: ne renvoie rien
+    RAISES: exception si PRE non-respecté
+
+    :param sender:
+    """
     if not isinstance(sender, str):
         raise InvalidType('Sender must be a string.')
     elif not check_mail(sender):
@@ -29,7 +37,15 @@ def check_sender(sender):
 
 
 def check_receivers(receivers):
-    # TODO: receivers is a list, has at least 1 entry and maximum 100 entries, all entries are e-mails
+    """
+    Vérifie que les receivers sont corrects
+
+    PRE: sender est une liste, tous e-mails valides, 1 entrée minimum et 100 maximum
+    POST: ne renvoie rien
+    RAISES: exception si PRE non-respecté
+
+    :param receivers:
+    """
     if not isinstance(receivers, list):
         raise InvalidType('Receivers must be a list.')
     elif len(receivers) < 1:
@@ -43,7 +59,15 @@ def check_receivers(receivers):
 
 
 def check_subject(subject):
-    # TODO: subject is a string, less than 201 characters
+    """
+    Vérifie que le subject est correct
+
+    PRE: subject est un string, 200 caractères maximum
+    POST: ne renvoie rien
+    RAISES: exception si PRE non-respecté
+
+    :param subject:
+    """
     if not isinstance(subject, str):
         raise InvalidType('Subject must be a string.')
     elif len(subject) > 200:
@@ -51,7 +75,15 @@ def check_subject(subject):
 
 
 def check_body(body):
-    # TODO: body is a string, less than 1001 characters
+    """
+    Vérifie que le body est correct
+
+    PRE: body est un string, 1000 caractères maximum
+    POST: ne renvoie rien
+    RAISES: exception si PRE non-respecté
+
+    :param body:
+    """
     if not isinstance(body, str):
         raise InvalidType('Body must be a string.')
     elif len(body) > 1000:
@@ -59,7 +91,15 @@ def check_body(body):
 
 
 def check_cc(cc):
-    # TODO: cc is a list, has a maximum of 100 entries, all entries are e-mails
+    """
+    Vérifie que les cc sont corrects
+
+    PRE: cc est une liste, tous e-mails valides, 100 entrées maximum
+    POST: ne renvoie rien
+    RAISES: exception si PRE non-respecté
+
+    :param cc:
+    """
     if not isinstance(cc, list):
         raise InvalidType('Cc must be a list.')
     elif len(cc) > 100:
@@ -71,7 +111,15 @@ def check_cc(cc):
 
 
 def check_bcc(bcc):
-    # TODO: bcc is a list, has a maximum of 100 entries, all entries are e-mails
+    """
+    Vérifie que les bcc sont corrects
+
+    PRE: sender est une liste, tous e-mails valides, 100 entrées maximum
+    POST: ne renvoie rien
+    RAISES: exception si PRE non-respecté
+
+    :param bcc:
+    """
     if not isinstance(bcc, list):
         raise InvalidType('Bcc must be a list.')
     elif len(bcc) > 100:
@@ -156,7 +204,7 @@ class Mail:
         """"Envoie un mail au(x) déstinataire(s)
 
         PRE: self possède chacun des champs obligatoires
-        POST: affiche un message de succès dans la console si l'envoi réussi
+        POST: affiche un message de succès dans la console si l'envoi réussit
 
         """
         msg = EmailMessage()
