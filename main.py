@@ -1,8 +1,8 @@
 import smtplib
 from email.message import EmailMessage
-import poplib
 import re
 import os
+import sys
 from dotenv import load_dotenv
 from app import App
 from app import NotAValidChoice
