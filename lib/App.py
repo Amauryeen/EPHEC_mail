@@ -40,17 +40,86 @@ class App:
                     body += body_part + "\n"
                 else:
                     break
+            try:
+                mail = Mail(receivers, subject, body, cc, bcc)
+                mail.send_mail()
+                App.menu()
+                App.menu_choice()
 
-            mail = Mail(receivers, subject, body, cc, bcc)
-            mail.send_mail()
-            App.menu()
-            App.menu_choice()
+            except OSError as error:
+                print(error)
+                App.menu()
+                App.menu_choice()
+
+            except smtplib.SMTPServerDisconnected as error:
+                print(error)
+                App.menu()
+                App.menu_choice()
+            
+            except smtplib.SMTPResponseException as error:
+                print(error)
+                App.menu()
+                App.menu_choice()
+
+            except smtplib.SMTPSenderRefused as error:
+                print(error)
+                App.menu()
+                App.menu_choice()
+
+            except smtplib.SMTPRecipientsRefused as error:
+                print(error)
+                App.menu()
+                App.menu_choice()
+
+            except smtplib.SMTPDataError as error:
+                print(error)
+                App.menu()
+                App.menu_choice()
+
+            except smtplib.SMTPConnectError as error:
+                print(error)
+                App.menu()
+                App.menu_choice()
+
+            except smtplib.SMTPHeloError as error:
+                print(error)
+                App.menu()
+                App.menu_choice()
+
+            except smtplib.SMTPNotSupportedError as error:
+                print(error)
+                App.menu()
+                App.menu_choice()
+            
+            except smtplib.SMTPAuthenticationError as error:
+                print(error)
+                App.menu()
+                App.menu_choice()
+
+            except TimeoutError as error:
+                print(error)
+                App.menu()
+                App.menu_choice()
+
         if menu_choice == 2:
             try:
                 mail_box = MailBox()
                 mail_box.get_mail()
-            except Exception as e:
-                print(e)
+                App.menu()
+                App.menu_choice()
+            
+            except poplib.error_proto as error:
+                print(error)
+                App.menu()
+                App.menu_choice()
+            except OSError as error:
+                print(error)
+                App.menu()
+                App.menu_choice()
+            except TimeoutError as error:
+                print(error)
+                App.menu()
+                App.menu_choice()
         if menu_choice == 3:
             print("Au revoir!")
             sys.exit()
